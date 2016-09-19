@@ -2,7 +2,7 @@ module Poke
   module API
     class Client
       include Logging
-      attr_accessor :endpoint, :sig_loaded, :refresh_token,
+      attr_accessor :endpoint, :sig_loaded, :refresh_token, :code
                     :lat, :lng, :alt, :http_client, :ticket,
                     :android_gps_info, :sensor_info, :device_info,
                     :activity_status, :location_fix
@@ -18,12 +18,11 @@ module Poke
         @sig_loaded = false
       end
 
-      def login(username, password, provider)
-        @username, @password, @provider = username, password, provider.upcase
-        raise Errors::InvalidProvider, provider unless %w(PTC GOOGLE).include?(@provider)
+      def login(options = {})
+        set_options(options)
 
         begin
-          @auth = Auth.const_get(@provider).new(@username, @password, @refresh_token)
+          @auth = Auth.const_get(@provider).new(@username, @password, { refresh_token: @refresh_token, code: @code })
           @auth.connect
         rescue StandardError => ex
           raise Errors::LoginFailure.new(@provider, ex)
@@ -84,6 +83,14 @@ module Poke
       def initialize_ticket
         get_hatched_eggs
         call
+      end
+
+      def set_options(options)
+        @username = options[:username]
+        @password = options[:password]
+        @code = options[:code]
+        @provider = options[:provider].to_s.upcase
+        raise Errors::InvalidProvider, @provider unless %w(PTC GOOGLE).include?(@provider)
       end
 
       def check_expiry
