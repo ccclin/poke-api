@@ -13,7 +13,7 @@ client.store_location('New York')
 
 # Use Google auth with 'username@gmail.com', 'password', 'google'
 # Optionally set your Google Refresh token using client.refresh_token = 'my-token'
-client.login('username', 'password', 'ptc')
+client.login({username: 'username', password: 'password', provider: 'ptc'})
 
 # Activate the encryption method to generate a signature
 # Where path is the path to your encrypt .so/.dll
