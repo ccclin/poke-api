@@ -120,7 +120,7 @@ Running provided ``example.rb`` with your own credentials
 # RPC call requests and responses
 An RPC request can be made on its own or with multiple calls, it also provides the ability to specify arguments. You can find all the supported requests in [`lib/poke-api/pogoprotos/pogoprotos_networking_requests.rb`](lib/poke-api/pogoprotos/pogoprotos_networking_requests.rb). Please note that you will need to check if any of these requests require arguments, these can be found in [`lib/poke-api/pogoprotos/pogoprotos_networking_requests_messages.rb`](lib/poke-api/pogoprotos/pogoprotos_networking_requests_messages.rb) using the same naming convention.
 
-**Let's assume we want to delete a few great balls from our inventory**  
+**Let's assume we want to delete a few great balls from our inventory**
 If you open [**`Requests`**](lib/poke-api/pogoprotos/pogoprotos_networking_requests.rb) we can see that there's an entry for `:RECYCLE_INVENTORY_ITEM`. We now know that our call is ``recycle_inventory_item``, next we have to find out if there're any arguments to this call. We can find any possible arguments inside [**`Messages`**](lib/poke-api/pogoprotos/pogoprotos_networking_requests_messages.rb) for our call. This shows two argments: ``item_id`` and ``count``. Furthermore we can see that ``item_id`` directly links to [**`POGOProtos.Inventory.Item.ItemId`**](lib/poke-api/pogoprotos/pogoprotos_inventory_item.rb), this is a file you can open as well with the item ids specified inside. In here we can see the Item ID for a great ball is 2.
 
 Our example request could be as follows:
@@ -132,7 +132,7 @@ client = Poke::API::Client.new
 
 # Both PTC/Google available as authentication provider
 client.store_location('New York')
-client.login('username@gmail.com', 'password', 'google')
+client.login({username: 'username@gmail.com', password: 'password', provider: 'google'})
 
 # Activate the encryption method to generate a signature (only required for map objects)
 client.activate_signature('/path/to/encrypt/file')
@@ -163,7 +163,7 @@ puts call.request.inspect
 puts call.response.inspect
 {
   :RECYCLE_INVENTORY_ITEM = >{
-    :result=>:SUCCESS, 
+    :result=>:SUCCESS,
     :new_count=>14
   },
   :status_code => 1,
@@ -180,7 +180,7 @@ require 'poke-api'
 client = Poke::API::Client.new
 client.activate_signature('/path/to/encrypt/file')
 client.store_location('New York')
-client.login('username', 'password', 'ptc')
+client.login({username: 'username', password: 'password', provider: 'ptc'})
 
 # Set your optional requests here
 client.location_fix = {provider: 'foo'}
@@ -266,10 +266,10 @@ client.store_location('New York')
 Poke::API::Helpers.get_cells(client.lat, client.lng)
 => [9926595610352287744, 9926595612499771392, 9926595614647255040,
     9926595616794738688, 9926595618942222336, 9926595621089705984,
-    9926595623237189632, 9926595625384673280, 9926595627532156928, 
-    9926595629679640576, 9926595631827124224, 9926595633974607872, 
-    9926595636122091520, 9926595638269575168, 9926595640417058816, 
-    9926595642564542464, 9926595644712026112, 9926595646859509760, 
+    9926595623237189632, 9926595625384673280, 9926595627532156928,
+    9926595629679640576, 9926595631827124224, 9926595633974607872,
+    9926595636122091520, 9926595638269575168, 9926595640417058816,
+    9926595642564542464, 9926595644712026112, 9926595646859509760,
     9926595649006993408, 9926595651154477056, 9926595653301960704]
 ```
 
@@ -277,6 +277,6 @@ Poke::API::Helpers.get_cells(client.lat, client.lng)
 Any contributions are most welcome, I don't have much time to spend on this project so I appreciate everything.
 
 # Credits
-[tejado](https://github.com/tejado/pgoapi) - Pretty much everything as this repository is a direct 'conversion' to the best of my ability  
-[AeonLucid](https://github.com/AeonLucid/POGOProtos) - Protobufs  
+[tejado](https://github.com/tejado/pgoapi) - Pretty much everything as this repository is a direct 'conversion' to the best of my ability
+[AeonLucid](https://github.com/AeonLucid/POGOProtos) - Protobufs
 [xssc](https://github.com/xssc/gpsoauth) - GPSOauth (Google Login)

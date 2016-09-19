@@ -2,7 +2,7 @@ module Poke
   module API
     class Client
       include Logging
-      attr_accessor :endpoint, :sig_loaded, :refresh_token, :code
+      attr_accessor :endpoint, :sig_loaded, :refresh_token, :code,
                     :lat, :lng, :alt, :http_client, :ticket,
                     :android_gps_info, :sensor_info, :device_info,
                     :activity_status, :location_fix
